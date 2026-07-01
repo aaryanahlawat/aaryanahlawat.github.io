@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aaryan Ahlawat</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #282A36;
+    --bg2: #1E1F2B;
+    --bg3: #343746;
+    --text: #F8F8F2;
+    --muted: #6272A4;
+    --accent: #BD93F9;
+    --accent2: #FF79C6;
+    --green: #50FA7B;
+    --yellow: #F1FA8C;
+    --cyan: #8BE9FD;
+    --orange: #FFB86C;
+    --border: rgba(189,147,249,0.18);
+    --card: rgba(52,55,70,0.7);
+    --font-mono: 'IBM Plex Mono', monospace;
+    --font-sans: 'IBM Plex Sans', sans-serif;
+    --radius: 10px;
+    --transition: 0.22s cubic-bezier(.4,0,.2,1);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    min-height: 100vh;
+    transition: background var(--transition), color var(--transition);
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    backdrop-filter: blur(8px);
+  }
+
+  .nav-logo {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.02em;
+  }
+
+  .nav-logo span { color: var(--accent2); }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color var(--transition);
+  }
+
+  .nav-links a:hover { color: var(--accent); }
+
+  /* ── THEME SWITCHER ── */
+  .theme-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .theme-label {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--muted);
+    margin-right: 0.25rem;
+    cursor: default;
+    user-select: none;
+  }
+
+  .theme-dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: transform 0.18s, border-color 0.18s;
+    outline: none;
+  }
+
+  .theme-dot:hover { transform: scale(1.25); }
+  .theme-dot.active { border-color: var(--text); transform: scale(1.2); }
+
+  /* ── HERO ── */
+  .hero {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 5rem 2rem 3.5rem;
+  }
+
+  .hero-inner {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+  }
+
+  @media (max-width: 640px) {
+    .hero-inner { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
+  }
+
+  .hero-photo {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--accent);
+    flex-shrink: 0;
+  }
+
+  .hero-content { flex: 1; }
+
+  .hero-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    color: var(--accent2);
+    margin-bottom: 1rem;
+    letter-spacing: 0.08em;
+  }
+
+  .hero h1 {
+    font-size: clamp(2.4rem, 5vw, 3.6rem);
+    font-weight: 600;
+    line-height: 1.1;
+    color: var(--text);
+    margin-bottom: 1rem;
+  }
+
+  .hero h1 em {
+    font-style: normal;
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    font-size: 1.05rem;
+    color: var(--muted);
+    max-width: 540px;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+  }
+
+  .hero-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .tag {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    padding: 0.3rem 0.75rem;
+    border-radius: 99px;
+    border: 1px solid var(--border);
+    color: var(--cyan);
+    background: rgba(139,233,253,0.06);
+  }
+
+  .hero-links {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    padding: 0.55rem 1.3rem;
+    border-radius: var(--radius);
+    text-decoration: none;
+    transition: all var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    border: 1px solid transparent;
+    cursor: pointer;
+    background: none;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #1a1a2e;
+    font-weight: 600;
+  }
+
+  .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+
+  .btn-ghost {
+    border-color: var(--border);
+    color: var(--muted);
+  }
+
+  .btn-ghost:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* ── SECTIONS ── */
+  section {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--accent2);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+  }
+
+  .section-title {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 2rem;
+  }
+
+  /* ── BIO ── */
+  .bio-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+
+  @media (max-width: 600px) { .bio-grid { grid-template-columns: 1fr; } }
+
+  .bio-text {
+    font-size: 0.95rem;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+
+  .bio-text p + p { margin-top: 1rem; }
+
+  .bio-text strong { color: var(--text); font-weight: 500; }
+
+  .bio-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem;
+  }
+
+  .stat-val {
+    font-family: var(--font-mono);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  .stat-label {
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-top: 0.15rem;
+  }
+
+  /* ── PROJECTS ── */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+  }
+
+  @media (max-width: 600px) { .projects-grid { grid-template-columns: 1fr; } }
+
+  .project-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    transition: border-color var(--transition), transform var(--transition);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .project-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  .project-card.featured {
+    border-color: var(--accent2);
+    grid-column: span 2;
+  }
+
+  @media (max-width: 600px) { .project-card.featured { grid-column: span 1; } }
+
+  .project-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .project-name {
+    font-family: var(--font-mono);
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .project-award {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 99px;
+    background: rgba(255,121,198,0.12);
+    color: var(--accent2);
+    border: 1px solid rgba(255,121,198,0.25);
+    white-space: nowrap;
+  }
+
+  .project-desc {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  .project-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: auto;
+  }
+
+  .stack-tag {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    padding: 0.2rem 0.55rem;
+    border-radius: 4px;
+    background: rgba(189,147,249,0.08);
+    color: var(--accent);
+    border: 1px solid rgba(189,147,249,0.15);
+  }
+
+  /* ── EXPERIENCE ── */
+  .exp-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .exp-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1rem 1.25rem;
+    align-items: start;
+  }
+
+  .exp-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-top: 0.4rem;
+  }
+
+  .exp-role {
+    font-family: var(--font-mono);
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .exp-org {
+    font-size: 0.8rem;
+    color: var(--accent2);
+    margin-top: 0.15rem;
+  }
+
+  .exp-date {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--muted);
+    margin-top: 0.15rem;
+  }
+
+  .exp-bullets {
+    margin-top: 0.75rem;
+    padding-left: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .exp-bullets li {
+    font-size: 0.83rem;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  .exp-bullets li::marker { color: var(--accent); }
+
+  /* ── SKILLS ── */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+  }
+
+  .skill-group {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+  }
+
+  .skill-group-title {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--accent2);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+
+  .skill-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .skill-chip {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    padding: 0.22rem 0.55rem;
+    border-radius: 4px;
+    background: rgba(80,250,123,0.07);
+    color: var(--green);
+    border: 1px solid rgba(80,250,123,0.15);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem;
+    text-align: center;
+  }
+
+  .footer-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-copy {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 1.25rem;
+  }
+
+  .footer-links a {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color var(--transition);
+  }
+
+  .footer-links a:hover { color: var(--accent); }
+
+  /* ── CURSOR BLINK ── */
+  .cursor {
+    display: inline-block;
+    width: 3px;
+    height: 1em;
+    background: var(--accent2);
+    margin-left: 4px;
+    vertical-align: -0.05em;
+    animation: blink 1s step-end infinite;
+  }
+
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+  /* ── SCROLL FADE IN ── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .fade-in.visible { opacity: 1; transform: none; }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-logo">aaryan<span>.</span>dev</span>
+  <ul class="nav-links">
+    <li><a href="#about">about</a></li>
+    <li><a href="#projects">projects</a></li>
+    <li><a href="#experience">experience</a></li>
+    <li><a href="#skills">skills</a></li>
+  </ul>
+  <div class="theme-bar">
+    <span class="theme-label">Click me!</span>
+    <button class="theme-dot active" data-theme="dracula" style="background:#BD93F9" title="Dracula" aria-label="Dracula theme"></button>
+    <button class="theme-dot" data-theme="deepspace" style="background:#6C63FF" title="Deep Space Signal" aria-label="Deep Space Signal theme"></button>
+    <button class="theme-dot" data-theme="circuit" style="background:#00D4FF" title="Circuit Noir" aria-label="Circuit Noir theme"></button>
+    <button class="theme-dot" data-theme="neural" style="background:#F5A623" title="Neural Dusk" aria-label="Neural Dusk theme"></button>
+    <button class="theme-dot" data-theme="terminal" style="background:#39FF14" title="Terminal Farm" aria-label="Terminal Farm theme"></button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero fade-in">
+  <div class="hero-inner">
+    <img src="_images/Professional_Headshot.png" alt="Aaryan Ahlawat" class="hero-photo">
+    <div class="hero-content">
+      <p class="hero-eyebrow">// hello, world</p>
+      <h1>Aaryan Ahlawat<span class="cursor"></span></h1>
+      <p class="hero-sub">Computer Engineering graduate from UC Santa Cruz. I build things at the intersection of networks, AI, and systems — with a NASA-certified attention to detail.</p>
+      <div class="hero-tags">
+        <span class="tag">Network / AI Engineering</span>
+        <span class="tag">Software Engineering</span>
+        <span class="tag">NASA L'SPACE Alumni</span>
+        <span class="tag">GPA 3.9</span>
+        <span class="tag">U.S. Citizen · Security Clearance Eligible</span>
+      </div>
+      <div class="hero-links">
+        <a href="mailto:aaryanahlawat@gmail.com" class="btn btn-primary">→ Get in touch</a>
+        <a href="https://github.com/aaryanahlawat" target="_blank" rel="noopener" class="btn btn-ghost">GitHub</a>
+        <a href="https://linkedin.com/in/aaryanahlawat" target="_blank" rel="noopener" class="btn btn-ghost">LinkedIn</a>
+        <a href="_resume/resume_1.pdf" target="_blank" class="btn btn-ghost">Resume ↗</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about" class="fade-in">
+  <p class="section-label">01 / about</p>
+  <h2 class="section-title">Who I am</h2>
+  <div class="bio-grid">
+    <div class="bio-text">
+      <p>I'm a <strong>Computer Engineering graduate</strong> from UC Santa Cruz (B.S., GPA 3.9), with a background spanning SDN, AI/ML pipelines, embedded systems, and security. I thrive on problems that don't fit neatly into one discipline.</p>
+      <p>My capstone, <strong>GUSynth</strong>, won Baskin Engineering's Dean's Undergraduate Award — a real-time neural guitar synthesizer running inference at under 11ms latency. It's the kind of project that blends hardware, ML, and audio engineering in ways I find endlessly interesting.</p>
+      <p>Outside of work I'm into photography, 3D printing, gaming, and exploring the outdoors. I care about building things that are both technically rigorous and genuinely useful.</p>
+    </div>
+    <div class="bio-stats">
+      <div class="stat-card">
+        <div class="stat-val">3.9</div>
+        <div class="stat-label">GPA · UC Santa Cruz · 5× Dean's Honor List</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val">2×</div>
+        <div class="stat-label">NASA L'SPACE Programs (MCA + NPWEE)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val">🏆</div>
+        <div class="stat-label">Baskin Engineering Dean's Undergraduate Award</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" class="fade-in">
+  <p class="section-label">02 / projects</p>
+  <h2 class="section-title">Things I've built</h2>
+  <div class="projects-grid">
+
+    <div class="project-card featured">
+      <div class="project-header">
+        <span class="project-name">GUSynth — Real-Time Timbre Transfer</span>
+        <span class="project-award">🏆 Dean's Award</span>
+      </div>
+      <p class="project-desc">Real-time guitar-to-piano timbre transfer pipeline using YIN f0 extraction, RMS loudness, and MFCC features fed into a 4-layer MLP. 64-harmonic additive synthesizer with phase-continuous output at ~11ms total latency on consumer hardware. Generalizes across guitar styles with no retraining required.</p>
+      <div class="project-stack">
+        <span class="stack-tag">PyTorch</span>
+        <span class="stack-tag">DDSP</span>
+        <span class="stack-tag">Python</span>
+        <span class="stack-tag">Jetson Orin</span>
+        <span class="stack-tag">UCSC Capstone</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-header">
+        <span class="project-name">TCP Half-Duplex Chat App</span>
+      </div>
+      <p class="project-desc">Custom application-layer protocol (REGISTER/BRIDGE/BRIDGEACK/REGACK) over TCP with a select()-based non-blocking server acting as a signaling broker. State machine-driven parsing, malformed packet detection, and 50+ edge-case test scenarios.</p>
+      <div class="project-stack">
+        <span class="stack-tag">Python</span>
+        <span class="stack-tag">Sockets</span>
+        <span class="stack-tag">select()</span>
+        <span class="stack-tag">Custom Protocol</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-header">
+        <span class="project-name">SDN Firewall & Router</span>
+      </div>
+      <p class="project-desc">SDN firewall using POX/OpenFlow 1.3 with stateful TCP/UDP/ICMP filtering across a 5-switch university topology serving 15+ hosts. Mitigated ping-flood DoS attacks; analyzed TCP behavior under 0/20/100% packet loss via Wireshark.</p>
+      <div class="project-stack">
+        <span class="stack-tag">Mininet</span>
+        <span class="stack-tag">OpenFlow</span>
+        <span class="stack-tag">POX</span>
+        <span class="stack-tag">Python</span>
+        <span class="stack-tag">Wireshark</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-header">
+        <span class="project-name">PathORAM & SEAL Leakage Mitigation</span>
+      </div>
+      <p class="project-desc">Implemented PathORAM and SEAL ADJ-ORAM-α over a Python TCP client-server model. Executed Query Recovery and Database Recovery leakage-abuse attacks on 1M+ Chicago crime records; tuned parameters to quantify and reduce access-pattern leakage.</p>
+      <div class="project-stack">
+        <span class="stack-tag">Python</span>
+        <span class="stack-tag">Cryptography</span>
+        <span class="stack-tag">TCP</span>
+        <span class="stack-tag">Data Privacy</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience" class="fade-in">
+  <p class="section-label">03 / experience</p>
+  <h2 class="section-title">Where I've worked</h2>
+  <div class="exp-list">
+
+    <div class="exp-card">
+      <div class="exp-dot"></div>
+      <div>
+        <div class="exp-role">Deputy PM of Resources & Engineer</div>
+        <div class="exp-org">NASA L'SPACE Mission Concept Academy</div>
+        <div class="exp-date">Sep 2024 – Dec 2024 · Remote</div>
+        <ul class="exp-bullets">
+          <li>Deputy PM for a $300M lunar mission concept; co-authored 30% of a 120-page NASA PDR covering FMEA, systems architecture, and lifecycle validation.</li>
+          <li>Applied NASA SDLC-equivalent standards across systems architecture and FMEA documentation; briefed senior NASA engineers on mission lifecycle validation findings.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-card">
+      <div class="exp-dot"></div>
+      <div>
+        <div class="exp-role">Lead Engineer</div>
+        <div class="exp-org">NASA L'SPACE NPWEE Program</div>
+        <div class="exp-date">May 2024 – Jul 2024 · Remote</div>
+        <ul class="exp-bullets">
+          <li>Lead Engineer in a 12-week NASA program; contributed to peer-reviewed AI research on ML-based solar activity prediction for Mars exploration, developing and validating time-series solar flux models presented to a review panel.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" class="fade-in">
+  <p class="section-label">04 / skills</p>
+  <h2 class="section-title">What I work with</h2>
+  <div class="skills-grid">
+    <div class="skill-group">
+      <div class="skill-group-title">AI / ML</div>
+      <div class="skill-chips">
+        <span class="skill-chip">PyTorch</span>
+        <span class="skill-chip">TensorFlow</span>
+        <span class="skill-chip">LangChain</span>
+        <span class="skill-chip">HuggingFace</span>
+        <span class="skill-chip">Pandas</span>
+        <span class="skill-chip">NLP</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Languages</div>
+      <div class="skill-chips">
+        <span class="skill-chip">Python</span>
+        <span class="skill-chip">C/C++</span>
+        <span class="skill-chip">Java</span>
+        <span class="skill-chip">SQL</span>
+        <span class="skill-chip">JavaScript</span>
+        <span class="skill-chip">Verilog</span>
+        <span class="skill-chip">Shell</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Systems & Tools</div>
+      <div class="skill-chips">
+        <span class="skill-chip">Linux</span>
+        <span class="skill-chip">Git</span>
+        <span class="skill-chip">Azure</span>
+        <span class="skill-chip">Mininet</span>
+        <span class="skill-chip">FPGA</span>
+        <span class="skill-chip">Docker</span>
+        <span class="skill-chip">CI/CD</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Networking</div>
+      <div class="skill-chips">
+        <span class="skill-chip">SDN/OpenFlow</span>
+        <span class="skill-chip">BGP</span>
+        <span class="skill-chip">VLANs</span>
+        <span class="skill-chip">REST APIs</span>
+        <span class="skill-chip">TCP/IP</span>
+        <span class="skill-chip">Wireshark</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <span class="footer-copy">© 2026 Aaryan Ahlawat — built by hand, no templates</span>
+    <div class="footer-links">
+      <a href="https://github.com/aaryanahlawat" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://linkedin.com/in/aaryanahlawat" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="mailto:aaryanahlawat@gmail.com">Email</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+const themes = {
+  dracula: {
+    '--bg': '#282A36', '--bg2': '#1E1F2B', '--bg3': '#343746',
+    '--text': '#F8F8F2', '--muted': '#6272A4', '--accent': '#BD93F9',
+    '--accent2': '#FF79C6', '--green': '#50FA7B', '--cyan': '#8BE9FD',
+    '--border': 'rgba(189,147,249,0.18)', '--card': 'rgba(52,55,70,0.7)',
+  },
+  deepspace: {
+    '--bg': '#0A0A0F', '--bg2': '#0D0D16', '--bg3': '#14142B',
+    '--text': '#F0EEF6', '--muted': '#5A5A8A', '--accent': '#6C63FF',
+    '--accent2': '#A78BFA', '--green': '#7C3AED', '--cyan': '#818CF8',
+    '--border': 'rgba(108,99,255,0.18)', '--card': 'rgba(20,20,43,0.8)',
+  },
+  circuit: {
+    '--bg': '#0F1117', '--bg2': '#090B10', '--bg3': '#161B26',
+    '--text': '#FFFFFF', '--muted': '#4A5568', '--accent': '#00D4FF',
+    '--accent2': '#00FFC8', '--green': '#00FF88', '--cyan': '#00D4FF',
+    '--border': 'rgba(0,212,255,0.15)', '--card': 'rgba(22,27,38,0.85)',
+  },
+  neural: {
+    '--bg': '#080D1A', '--bg2': '#060910', '--bg3': '#0F1828',
+    '--text': '#F7F4ED', '--muted': '#5A5040', '--accent': '#F5A623',
+    '--accent2': '#E8890A', '--green': '#D4A853', '--cyan': '#F7C948',
+    '--border': 'rgba(245,166,35,0.15)', '--card': 'rgba(15,24,40,0.85)',
+  },
+  terminal: {
+    '--bg': '#0D0D00', '--bg2': '#080800', '--bg3': '#111100',
+    '--text': '#C8B89A', '--muted': '#5A4E38', '--accent': '#39FF14',
+    '--accent2': '#7FFF00', '--green': '#39FF14', '--cyan': '#ADFF2F',
+    '--border': 'rgba(57,255,20,0.15)', '--card': 'rgba(17,17,0,0.9)',
+    '--font-mono': '"IBM Plex Mono", monospace', '--font-sans': '"IBM Plex Mono", monospace',
+  },
+};
+
+const root = document.documentElement;
+
+function applyTheme(name) {
+  const t = themes[name];
+  Object.entries(t).forEach(([k, v]) => root.style.setProperty(k, v));
+  document.querySelectorAll('.theme-dot').forEach(d => {
+    d.classList.toggle('active', d.dataset.theme === name);
+  });
+  localStorage.setItem('aa-theme', name);
+}
+
+document.querySelectorAll('.theme-dot').forEach(btn => {
+  btn.addEventListener('click', () => applyTheme(btn.dataset.theme));
+});
+
+const saved = localStorage.getItem('aa-theme') || 'dracula';
+applyTheme(saved);
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
